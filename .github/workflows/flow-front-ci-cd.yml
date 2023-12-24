@@ -27,22 +27,33 @@ jobs:
           name: Get Output
           path: |
             ./.output
+  deploy:
+    needs: build
+    name: S3 Upload
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
 
-  
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
 
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-region: ap-northeast-2
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#
-#      - name: Upload Build file
-#        run: aws s3 cp --region ap-northeast-2 ./${{ steps.file.outputs.filename }} s3://deploy/${{ steps.file.outputs.filename }}
-#
-#      - name: Create AWS codedeploy
-#        run: aws deploy create-deployment
-#          --application-name Git-action-stag
-#          --deployment-config-name CodeDeployDefault.AllAtOnce
-#          --deployment-group-name git-action-stage-group
-#          --s3-location bucket=deploy,key=${{ steps.file.outputs.filename }},bundleType=zip
+      - name: Make Zip File
+        run: zip -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Upload Build file
+        run: aws s3 cp ./$GITHUB_SHA.zip s3://flow-front-1/
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name flow --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name flow-group --s3-location bucket=flow-front-1,bundleType=zip,key=$GITHUB_SHA.zip
