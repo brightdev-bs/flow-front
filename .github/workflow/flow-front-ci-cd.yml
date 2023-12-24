@@ -1,0 +1,48 @@
+name: front-ci-cd
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    pull-requests: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: https://npm.pkg.github.com
+          scope: "@octocat"
+
+      - uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Asia/Seoul"
+
+      - name: Check version
+        run: node -v
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn run build
+
+      - name: Get file name
+        id: file
+        run: echo "filename=front-end-${{ steps.date.outputs.date }}.zip" >> $GITHUB_OUTPUT
+
+      - name: Create ZIP file
+        run: zip -qq -r ./${{ steps.file.outputs.filename }} .
