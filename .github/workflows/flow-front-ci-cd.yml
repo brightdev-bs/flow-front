@@ -5,14 +5,12 @@ on:
     branches:
       - main
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    pull-requests: read
 
     steps:
       - uses: actions/checkout@v3
