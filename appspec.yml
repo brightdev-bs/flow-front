@@ -5,6 +5,8 @@ files:
   - source: /
     destination: /home/ubuntu/front
     overwrite: true
+file_exist_behavior: OVERWRITE
+
 permissions:
   - object: /
     pattern: "**"
