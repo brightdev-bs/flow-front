@@ -3,8 +3,8 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/front
-    overwrite: true
+    destination: /home/ubuntu/front/
+    overwrite: yes
 file_exist_behavior: OVERWRITE
 
 permissions:
