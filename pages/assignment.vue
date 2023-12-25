@@ -18,8 +18,7 @@ const fixedExtensions = ref([]);
 const customExtensions = ref([]);
 
 const toast = useToast()
-const { data } = await useAsyncData('homeData', () => $fetch('http://localhost:8080/home'));
-
+const { data } = await useAsyncData('homeData', () => $fetch(process.env.SERVER + '/home'));
 onMounted(async () => {
   try {
     fixedExtensions.value = data.value.data.fixedExtResponse;
