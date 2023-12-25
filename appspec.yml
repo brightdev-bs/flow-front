@@ -15,6 +15,10 @@ permissions:
     mode: 777
 
 hooks:
+  BeforeInstall:
+    - location: script/clean.sh
+      timeout: 600
+      runas: ubuntu
   ApplicationStart:
     - location: script/deploy.sh
       timeout: 600
