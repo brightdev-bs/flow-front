@@ -5,12 +5,15 @@ files:
   - source: /
     destination: /home/ubuntu/front
     overwrite: true
-    permissions:
-      - object: /
-        pattern: "**"
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+    mode: 777
 
 hooks:
   ApplicationStart:
-    - location: deploy.sh
-      timeout: 300
+    - location: script/deploy.sh
+      timeout: 600
       runas: root
