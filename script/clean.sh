@@ -1,7 +1,7 @@
 # beforeInstall.bash
 
 #!/usr/bin/env bash
-if [ -d /usr/ubuntu/front ]; then
-    sudo rm -rf /usr/ubuntu/front
+if [ -d /home/ubuntu/front ]; then
+    sudo rm -rf /home/ubuntu/front
 fi
-sudo mkdir -vp /usr/ubuntu/front
+sudo mkdir -vp /home/ubuntu/front
