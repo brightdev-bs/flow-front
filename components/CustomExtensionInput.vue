@@ -55,8 +55,8 @@ const emit = defineEmits(['addCustomExtensions', 'removeCustomExtensions'])
 
 const createCustomExtension = async () => {
 
-    const { data: response, error } = await useAsyncData('homeData', () => $fetch('http://localhost:8080/extensions/custom', {
       method: 'POST',
+    const { data: response, error } = await useAsyncData('homeData', () => $fetch(process.env.SERVER + '/extensions/custom', {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -88,7 +88,7 @@ const createCustomExtension = async () => {
 }
 const removeExtension = async (ext, index) => {
 
-  const { data, error } = await useAsyncData('removeExtension', () => $fetch('http://localhost:8080/extensions/custom/' + ext.id, {
+  const { data, error } = await useAsyncData('removeExtension', () => $fetch(process.env.SERVER + '/extensions/custom/' + ext.id, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

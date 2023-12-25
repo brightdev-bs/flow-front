@@ -36,7 +36,7 @@ const update = async (ext) => {
   }
 
   try {
-    await useAsyncData('updateExtension', () => $fetch('http://localhost:8080/extensions/fixed/' + ext.id, {
+    await useAsyncData('updateExtension', () => $fetch(process.env.SERVER + '/extensions/fixed/' + ext.id, {
       method: 'patch',
       headers: {
         'Content-Type': 'application/json'
