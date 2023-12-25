@@ -21,6 +21,7 @@
 <script setup>
 import {useAsyncData} from "nuxt/app";
 const toast = useToast()
+const config = useRuntimeConfig();
 
 defineProps({
   extensions: {
@@ -36,7 +37,7 @@ const update = async (ext) => {
   }
 
   try {
-    await useAsyncData('updateExtension', () => $fetch(process.env.SERVER + '/extensions/fixed/' + ext.id, {
+    await useAsyncData('updateExtension', () => $fetch(config.public.api + '/extensions/fixed/' + ext.id, {
       method: 'patch',
       headers: {
         'Content-Type': 'application/json'

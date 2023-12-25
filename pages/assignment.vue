@@ -16,9 +16,12 @@ import {onMounted} from "vue";
 
 const fixedExtensions = ref([]);
 const customExtensions = ref([]);
+const config = useRuntimeConfig();
 
 const toast = useToast()
-const { data } = await useAsyncData('homeData', () => $fetch(process.env.SERVER + '/home'));
+const { data } = await useAsyncData('homeData', () => $fetch(config.public.api + '/home'));
+
+
 onMounted(async () => {
   try {
     fixedExtensions.value = data.value.data.fixedExtResponse;
