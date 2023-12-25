@@ -13,4 +13,4 @@ else
   kill -9 $PID
 fi
 
-nohup node /home/ubuntu/front/.output/server/index.mjs 1>> /home/deploy/log/$TIMESTAMP.log 2>&1 &
+nohup node /home/ubuntu/front/.output/server/index.mjs > /dev/null 2>&1 &
