@@ -56,7 +56,7 @@ const emit = defineEmits(['addCustomExtensions', 'removeCustomExtensions'])
 
 const createCustomExtension = async () => {
 
-    const { data: response, error } = await useAsyncData('homeData', () => $fetch('http://localhost:8080/extensions/custom', {
+    const { data: response, error } = await useAsyncData('homeData', () => $fetch(config.public.api + '/extensions/custom', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
