@@ -22,6 +22,7 @@
 import {useAsyncData} from "nuxt/app";
 const toast = useToast()
 const config = useRuntimeConfig();
+const canClick = ref(true);
 
 defineProps({
   extensions: {
@@ -30,35 +31,52 @@ defineProps({
   }
 })
 const update = async (ext) => {
-  if (ext.active === false) {
-    ext.active = true;
-  } else {
-    ext.active = false;
-  }
+  if (canClick.value == true) {
+    canClick.value = false;
 
-  try {
-    await useAsyncData('updateExtension', () => $fetch(config.public.api + '/extensions/fixed/' + ext.id, {
-      method: 'patch',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: { flag: ext.active },
-    }));
-    toast.add({
-      title: "Success",
-      id: "1",
-      color: 'green',
-      description: "Fixed extensions updated",
-      timeout: 2000,
-    });
-  } catch (error) {
+    if (ext.active === false) {
+      ext.active = true;
+    } else {
+      ext.active = false;
+    }
+
+    try {
+      await useAsyncData('updateExtension', () => $fetch(config.public.api + '/extensions/fixed/' + ext.id, {
+        method: 'patch',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: { flag: ext.active },
+      }));
+      toast.add({
+        title: "Success",
+        id: "1",
+        color: 'green',
+        description: "Fixed extensions updated",
+        timeout: 2000,
+      });
+    } catch (error) {
+      toast.add({
+        title: "Error",
+        color: 'red',
+        description: "Error while updating fixed extensions",
+        timeout: 2000,
+      })
+    }
+
+    setTimeout(() => {
+      canClick.value = true;
+    }, 2000)
+
+  } else {
     toast.add({
       title: "Error",
       color: 'red',
-      description: "Error while updating fixed extensions",
+      description: "Please wait",
       timeout: 2000,
     })
   }
+
 }
 
 
