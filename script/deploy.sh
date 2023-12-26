@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-cd /home/ubuntu/front
-
-cp -r /home/ubuntu/front/.output  /home/ubuntu/deploy/front/.output
+cp -rf /home/ubuntu/front  /home/ubuntu/deploy/front/
 
 PID=$(pgrep -f ".output/server/index.mjs")
 echo $PID
