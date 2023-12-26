@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+rm -rf /home/ubuntu/deploy/front
 cp -rf /home/ubuntu/front  /home/ubuntu/deploy/front/
 
 PID=$(pgrep -f ".output/server/index.mjs")
