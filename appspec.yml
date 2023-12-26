@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/project/frontend
+    destination: /home/ubuntu/front/
     overwrite: yes
 
 permissions:
